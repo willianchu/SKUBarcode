@@ -1,10 +1,10 @@
-// Listen for tab activation
-chrome.tabs.onActivated.addListener((activeInfo) => {
-  const tabId = activeInfo.tabId;
+// Execute the transformation when the DOM content is loaded
+chrome.action.onClicked.addListener(async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   // Inject the content script into the active tab
   chrome.scripting.executeScript({
-    target: { tabId: tabId },
-    files: ["contentScript.js"],
+    target: { tabId: tab.id },
+    files: ["contentScript.js"]
   });
 });
